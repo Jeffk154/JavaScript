@@ -1,0 +1,70 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body class = "bg-primary d-flex justify-content-center align-items-center" >
+    <div class = "bg-light rounded-3 p-4">
+        <h1 class = "mb-3">✨ My To-Do List</h1>
+        <input id = "Task" class = "rounded-3 mb-3">
+        <button onclick = "buttonTriger()" class = "bg-success rounded-3 mb-3">Add Task</button>
+
+        <div id = "Container">
+
+        </div>
+
+    </div>
+</body>
+
+
+<script>
+    localStorage.setItem("name" , "Jeff")
+    let alltask = []
+    if (localStorage.getItem("alltask")){
+        alltask = JSON.parse(localStorage.getItem("alltask"))
+        show()
+    }
+    
+    
+    function buttonTriger(){
+        console.log("Hello")
+        //Grab The Input
+        let input=document.getElementById("Task")
+        //save task
+
+        let value = input.value
+        alltask.push(value)
+        localStorage.setItem("alltask" , JSON.stringify(alltask))
+        console.log(value)
+        console.log(alltask)
+        
+         show()
+        
+        
+    }
+
+    function erase(tasknum){
+        console.log( "Deleting..." + tasknum )
+        alltask.splice(tasknum , 1)
+        localStorage.setItem("alltask" , JSON.stringify(alltask))
+
+         show()
+    }
+
+    function show(){
+        //Grab The Container
+        let Container = document.getElementById("Container")
+        Container.innerText = ""
+        for(let number = 0 ; number < alltask.length ; number +=1){
+            let div = `
+            <div class="d-flex flex-row mb-1 bg-info rounded-3 flex justify-content-center pt-2">
+            <p class = "w-75 p-1 h-25">${alltask[number]}</p>
+            <button onclick = "erase(${number})"  class = "bg-danger h-25 rounded-3 ">X</button>
+
+            </div>`
+            
+
+            Container.insertAdjacentHTML("beforeend" , div)
+        }
+    }
+</script>
